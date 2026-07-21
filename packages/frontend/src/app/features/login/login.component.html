@@ -1,24 +1,20 @@
 <section class="journey-companion-container">
-  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+  <form class="login-form" [formRoot]="loginForm">
     <sbb-title level="2">Sbb Journey Companion</sbb-title>
     <sbb-form-field>
       <label for="username">Username</label>
       <sbb-icon slot="prefix" name="user-small"></sbb-icon>
-      <input id="username" type="text" formControlName="username" placeholder="Enter username" />
-      @if (username.invalid && (username.dirty || username.touched)) {
-        @if (username.errors) {
-          <sbb-error>
-            @if (username.errors['required']) {
-              Username is required.
-            } @else if (username.errors['invalid']) {
-              Invalid username or password.
-            } @else if (username.errors['taken']) {
-              Registration failed. Please try a different username.
-            } @else if (username.errors['minlength']) {
-              Username must be at least 3 characters.
-            }
-          </sbb-error>
-        }
+      <input
+        id="username"
+        type="text"
+        [formField]="loginForm.username"
+        placeholder="Enter username"
+      />
+      @if (
+        loginForm.username().invalid() &&
+        (loginForm.username().touched() || loginForm.username().dirty())
+      ) {
+        <sbb-error>{{ loginForm.username().errors()[0]?.message }}</sbb-error>
       }
     </sbb-form-field>
     <sbb-form-field>
@@ -27,21 +23,14 @@
       <input
         id="password"
         [type]="showPassword() ? 'text' : 'password'"
-        formControlName="password"
+        [formField]="loginForm.password"
         placeholder="Enter password"
       />
-      @if (password.invalid && (password.dirty || password.touched)) {
-        @if (password.errors) {
-          <sbb-error>
-            @if (password.errors['required']) {
-              Password is required.
-            } @else if (password.errors['invalid']) {
-              Invalid username or password.
-            } @else if (password.errors['minlength']) {
-              Password must be at least 6 characters.
-            }
-          </sbb-error>
-        }
+      @if (
+        loginForm.password().invalid() &&
+        (loginForm.password().touched() || loginForm.password().dirty())
+      ) {
+        <sbb-error>{{ loginForm.password().errors()[0]?.message }}</sbb-error>
       }
       <sbb-mini-button
         slot="suffix"
@@ -49,7 +38,7 @@
         (click)="togglePasswordVisibility()"
       ></sbb-mini-button>
     </sbb-form-field>
-    <sbb-button type="submit" [disabled]="loginForm.invalid">
+    <sbb-button type="submit" [disabled]="loginForm().invalid() || loginForm().submitting()">
       @if (isLoginMode()) {
         Login
       } @else {

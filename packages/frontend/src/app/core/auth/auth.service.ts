@@ -1,20 +1,18 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { computed, inject, Service, signal } from '@angular/core';
 import { AuthRequestDto, AuthResponseDto, JwtPayloadDto } from '@sbb-journey-companion/common';
 import { BehaviorSubject, catchError, filter, Observable, take, tap, throwError } from 'rxjs';
 
 import { activeSessionKey, activeSessionValue } from '../../app.config';
-import { HttpBaseService } from '../http/http-base.service';
 
 interface LoggedUser {
   user: JwtPayloadDto | null;
   loggedIn: boolean;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
-  #http: HttpBaseService = inject(HttpBaseService);
+  #http: HttpClient = inject(HttpClient);
   #accessToken: string | null = null;
   #refreshInProgress = false;
   #refreshSubject = new BehaviorSubject<AuthResponseDto | null>(null);

@@ -12,6 +12,7 @@ import { catchError, firstValueFrom, of } from 'rxjs';
 import { routes } from './app.routes';
 import { authInterceptor, credentialsInterceptor } from './core/auth/auth-interceptor';
 import { AuthService } from './core/auth/auth.service';
+import { httpBaseInterceptor } from './core/http/http-base-interceptor';
 import { httpErrorInterceptor } from './core/http/http-error-interceptor';
 import { loaderInterceptor } from './core/loader/loader-interceptor';
 
@@ -47,6 +48,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withInterceptors([
+        httpBaseInterceptor,
         httpErrorInterceptor,
         authInterceptor,
         loaderInterceptor,

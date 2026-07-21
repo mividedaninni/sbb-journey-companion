@@ -1,8 +1,6 @@
-import { Injectable, signal, computed, WritableSignal, Signal } from '@angular/core';
+import { computed, Service, Signal, signal, WritableSignal } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class LoaderService {
   private activeRequestsCount: WritableSignal<number> = signal(0);
   public isLoading: Signal<boolean> = computed(() => this.activeRequestsCount() > 0);

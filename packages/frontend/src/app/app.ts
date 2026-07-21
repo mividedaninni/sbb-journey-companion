@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { SbbHeaderModule } from '@sbb-esta/lyne-angular/header';
-import { SbbLoadingIndicator } from '@sbb-esta/lyne-angular/loading-indicator';
+import { SbbImageModule } from '@sbb-esta/lyne-angular/image';
+import { SbbLoadingIndicatorModule } from '@sbb-esta/lyne-angular/loading-indicator';
 import { SbbMenuModule } from '@sbb-esta/lyne-angular/menu';
 import { SbbToastService } from '@sbb-esta/lyne-angular/toast';
 
@@ -13,7 +14,14 @@ import { LoaderService } from './core/loader/loader.service';
 
 @Component({
   selector: 'journey-companion-root',
-  imports: [RouterOutlet, RouterLink, SbbHeaderModule, SbbLoadingIndicator, SbbMenuModule],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    SbbHeaderModule,
+    SbbLoadingIndicatorModule,
+    SbbMenuModule,
+    SbbImageModule,
+  ],
   template: `
     <sbb-header>
       @if (!auth.isLoggedIn()) {
@@ -29,9 +37,9 @@ import { LoaderService } from './core/loader/loader.service';
         </sbb-menu>
       }
       <div class="sbb-header-spacer"></div>
-      <img
+      <sbb-image
         class="journey-companion-logo"
-        src="/favicon.ico"
+        imageSrc="/favicon.ico"
         alt="SBB Journey Companion logo"
         width="40"
         height="40"
@@ -48,15 +56,10 @@ import { LoaderService } from './core/loader/loader.service';
   `,
 })
 export class App {
-  public auth = inject(AuthService);
-  public loaderService = inject(LoaderService);
+  protected auth = inject(AuthService);
+  protected loaderService = inject(LoaderService);
   private _router = inject(Router);
   private _sbbToastService = inject(SbbToastService);
-
-  logout() {
-    this.auth.logout();
-    this._router.navigate(['/login'], { replaceUrl: true });
-  }
 
   constructor() {
     ERROR_NOTIFIER.pipe(takeUntilDestroyed()).subscribe((message) =>
@@ -69,5 +72,10 @@ export class App {
         },
       }),
     );
+  }
+
+  protected logout(): void {
+    this.auth.logout();
+    this._router.navigate(['/login'], { replaceUrl: true });
   }
 }
