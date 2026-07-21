@@ -30,6 +30,15 @@
     "start:backend": "yarn workspace @sbb-journey-companion/backend start",
     "start:frontend": "yarn workspace @sbb-journey-companion/frontend start",
     "start": "run-p start:common start:backend start:frontend",
+    "lint:common": "yarn workspace @sbb-journey-companion/common lint",
+    "lint:backend": "yarn workspace @sbb-journey-companion/backend lint",
+    "lint:frontend": "yarn workspace @sbb-journey-companion/frontend lint",
+    "lint": "run-s lint:common lint:backend lint:frontend",
+    "format:common": "yarn workspace @sbb-journey-companion/common format",
+    "format:backend": "yarn workspace @sbb-journey-companion/backend format",
+    "format:frontend": "yarn workspace @sbb-journey-companion/frontend format",
+    "format": "run-s format:common format:backend format:frontend",
+    "integrity": "run-s lint format",
     "prepare": "husky"
   },
   "lint-staged": {
