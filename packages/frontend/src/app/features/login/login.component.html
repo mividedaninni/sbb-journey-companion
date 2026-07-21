@@ -1,0 +1,69 @@
+<section class="journey-companion-container">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+    <sbb-title level="2">Sbb Journey Companion</sbb-title>
+    <sbb-form-field>
+      <label for="username">Username</label>
+      <sbb-icon slot="prefix" name="user-small"></sbb-icon>
+      <input id="username" type="text" formControlName="username" placeholder="Enter username" />
+      @if (username.invalid && (username.dirty || username.touched)) {
+        @if (username.errors) {
+          <sbb-error>
+            @if (username.errors['required']) {
+              Username is required.
+            } @else if (username.errors['invalid']) {
+              Invalid username or password.
+            } @else if (username.errors['taken']) {
+              Registration failed. Please try a different username.
+            } @else if (username.errors['minlength']) {
+              Username must be at least 3 characters.
+            }
+          </sbb-error>
+        }
+      }
+    </sbb-form-field>
+    <sbb-form-field>
+      <label for="password">Password</label>
+      <sbb-icon slot="prefix" name="lock-closed-small"></sbb-icon>
+      <input
+        id="password"
+        [type]="showPassword() ? 'text' : 'password'"
+        formControlName="password"
+        placeholder="Enter password"
+      />
+      @if (password.invalid && (password.dirty || password.touched)) {
+        @if (password.errors) {
+          <sbb-error>
+            @if (password.errors['required']) {
+              Password is required.
+            } @else if (password.errors['invalid']) {
+              Invalid username or password.
+            } @else if (password.errors['minlength']) {
+              Password must be at least 6 characters.
+            }
+          </sbb-error>
+        }
+      }
+      <sbb-mini-button
+        slot="suffix"
+        [iconName]="showPassword() ? 'eye-disabled-small' : 'eye-small'"
+        (click)="togglePasswordVisibility()"
+      ></sbb-mini-button>
+    </sbb-form-field>
+    <sbb-button type="submit" [disabled]="loginForm.invalid">
+      @if (isLoginMode()) {
+        Login
+      } @else {
+        Register
+      }
+    </sbb-button>
+    <p class="sbb-text-xs">
+      @if (isLoginMode()) {
+        Need an account?
+        <sbb-link-button size="xs" (click)="toggleMode()">Register</sbb-link-button>
+      } @else {
+        Have an account?
+        <sbb-link-button size="xs" (click)="toggleMode()">Login</sbb-link-button>
+      }
+    </p>
+  </form>
+</section>
