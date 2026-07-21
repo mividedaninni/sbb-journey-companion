@@ -13,9 +13,9 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const corsOptions: cors.CorsOptions = {
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -23,13 +23,13 @@ app.use(express.json());
 app.use('/api', authRouter);
 
 app.get('/api/health', (req, res) => {
-    res.status(200).json({ status: 'ok', server: 'running' });
+  res.status(200).json({ status: 'ok', server: 'running' });
 });
 
 async function startServer() {
-    httpServer.listen(PORT, () => {
-        console.log(`📡 Server listening on port ${PORT}`);
-    });
+  httpServer.listen(PORT, () => {
+    console.log(`📡 Server listening on port ${PORT}`);
+  });
 }
 
 await startServer();

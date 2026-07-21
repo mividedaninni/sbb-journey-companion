@@ -1,17 +1,17 @@
-import {Component, inject, signal, WritableSignal} from '@angular/core';
-import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
-import {SbbButtonModule} from '@sbb-esta/lyne-angular/button';
-import {SbbActionGroupModule} from '@sbb-esta/lyne-angular/action-group';
-import {SbbDividerModule} from '@sbb-esta/lyne-angular/divider';
-import {SbbFormFieldModule} from '@sbb-esta/lyne-angular/form-field';
-import {SbbIconModule} from '@sbb-esta/lyne-angular/icon';
-import {SbbTitleModule} from '@sbb-esta/lyne-angular/title';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SbbActionGroupModule } from '@sbb-esta/lyne-angular/action-group';
+import { SbbButtonModule } from '@sbb-esta/lyne-angular/button';
+import { SbbDividerModule } from '@sbb-esta/lyne-angular/divider';
+import { SbbFormFieldModule } from '@sbb-esta/lyne-angular/form-field';
+import { SbbIconModule } from '@sbb-esta/lyne-angular/icon';
+import { SbbTitleModule } from '@sbb-esta/lyne-angular/title';
 
-import {AuthService} from '../../core/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'journey-companion-lobby',
-  host: {class: 'journey-companion-routed-component'},
+  host: { class: 'journey-companion-routed-component' },
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.scss',
   imports: [

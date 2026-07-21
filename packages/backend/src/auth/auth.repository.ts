@@ -63,7 +63,7 @@ export async function createUser(
     );
   } catch (err) {
     if (err instanceof Error && (err as { code?: string }).code === 'SQLITE_CONSTRAINT_UNIQUE') {
-      throw new Error('USERNAME_TAKEN');
+      throw new Error('USERNAME_TAKEN', { cause: err });
     }
     throw err;
   }

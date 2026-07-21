@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {SBB_OVERLAY_DATA} from '@sbb-esta/lyne-angular/core';
+import { SBB_OVERLAY_DATA } from '@sbb-esta/lyne-angular/core';
 
 @Component({
   selector: 'journey-companion-error-dialog',

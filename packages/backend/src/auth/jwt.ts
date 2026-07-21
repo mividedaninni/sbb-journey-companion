@@ -5,7 +5,7 @@ const ACCESS_TOKEN_TTL = '15m';
 const REFRESH_TOKEN_TTL = '1d';
 
 if (!process.env.JWT_ACCESS_SECRET || !process.env.JWT_REFRESH_SECRET) {
-    throw new Error('Missing required JWT secrets in environment');
+  throw new Error('Missing required JWT secrets in environment');
 }
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET!;

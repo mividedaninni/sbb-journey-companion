@@ -5,46 +5,43 @@ import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 
 export const baseConfig = tseslint.config(
-    eslint.configs.recommended,
-    {
-        files: ['**/*.ts'],
-        extends: [...tseslint.configs.recommended],
-        plugins: {
-            '@typescript-eslint': tseslint.plugin,
-            prettier: prettierPlugin,
-            perfectionist,
-        },
-        rules: {
-            'prettier/prettier': 'error',
-            'no-unused-vars': 'off',
-            '@typescript-eslint/no-unused-vars': 'off',
-            'perfectionist/sort-imports': [
-                'error',
-                {
-                    type: 'natural',
-                    order: 'asc',
-                    groups: [
-                        'type',
-                        ['builtin', 'external'],
-                        'internal-type',
-                        'internal',
-                        ['parent-type', 'sibling-type', 'index-type'],
-                        ['parent', 'sibling', 'index'],
-                        'side-effect',
-                        'style',
-                        'object',
-                        'unknown',
-                    ],
-                },
-            ],
-        },
+  eslint.configs.recommended,
+  {
+    files: ['**/*.ts'],
+    extends: [...tseslint.configs.recommended],
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+      prettier: prettierPlugin,
+      perfectionist,
     },
-    {
-        plugins: {
-            prettier: prettierPlugin,
+    rules: {
+      'prettier/prettier': 'error',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'perfectionist/sort-imports': [
+        'error',
+        {
+          type: 'natural',
+          order: 'asc',
+          groups: [
+            'side-effect',
+            'type',
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'style',
+            'unknown',
+          ],
         },
-        rules: { 'prettier/prettier': 'error' },
-    }
+      ],
+    },
+  },
+  {
+    plugins: {
+      prettier: prettierPlugin,
+    },
+    rules: { 'prettier/prettier': 'error' },
+  }
 );
 
 export const finalPrettier = prettierConfig;
