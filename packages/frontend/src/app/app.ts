@@ -29,10 +29,10 @@ import { LoaderService } from './core/loader/loader.service';
           Login
         </sbb-header-link>
       } @else {
-        <sbb-header-button iconName="house-small" routerLink="/lobby" id="lobby">
-          Lobby
+        <sbb-header-button iconName="house-small" routerLink="/dashboard" id="dashboard">
+          Dashboard
         </sbb-header-button>
-        <sbb-menu trigger="lobby">
+        <sbb-menu trigger="dashboard">
           <sbb-menu-button (click)="logout()">Logout</sbb-menu-button>
         </sbb-menu>
       }

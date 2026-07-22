@@ -70,7 +70,7 @@ export class LoginComponent {
 
           try {
             await firstValueFrom(action$);
-            this._router.navigate(['/lobby']);
+            this._router.navigate(['/dashboard']);
             return undefined;
           } catch (err) {
             return this.mapServerErrors(err as HttpErrorResponse);

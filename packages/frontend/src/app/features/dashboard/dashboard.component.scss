@@ -1,0 +1,16 @@
+:host {
+  --journey-companion-buttons-radius: calc(
+    var(--sbb-border-radius-16x) + var(--sbb-border-radius-6x)
+  );
+
+  justify-content: space-between;
+}
+
+.journey-companion-container {
+  gap: var(--sbb-spacing-fixed-8x);
+  width: 50%;
+
+  @media (max-width: 1024px) {
+    width: 85%;
+  }
+}

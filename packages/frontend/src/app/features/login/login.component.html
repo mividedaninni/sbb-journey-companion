@@ -1,9 +1,9 @@
 <section class="journey-companion-container">
-  <form class="login-form" [formRoot]="loginForm">
+  <form class="login__form" [formRoot]="loginForm">
     <sbb-title level="2">Sbb Journey Companion</sbb-title>
     <sbb-form-field>
       <label for="username">Username</label>
-      <sbb-icon slot="prefix" name="user-small"></sbb-icon>
+      <sbb-icon slot="prefix" name="user-small" class="login__icon"></sbb-icon>
       <input
         id="username"
         type="text"
@@ -19,7 +19,7 @@
     </sbb-form-field>
     <sbb-form-field>
       <label for="password">Password</label>
-      <sbb-icon slot="prefix" name="lock-closed-small"></sbb-icon>
+      <sbb-icon slot="prefix" name="lock-closed-small" class="login__icon"></sbb-icon>
       <input
         id="password"
         [type]="showPassword() ? 'text' : 'password'"
@@ -38,7 +38,11 @@
         (click)="togglePasswordVisibility()"
       ></sbb-mini-button>
     </sbb-form-field>
-    <sbb-button type="submit" [disabled]="loginForm().invalid() || loginForm().submitting()">
+    <sbb-button
+      type="submit"
+      class="login__submit-button"
+      [disabled]="loginForm().invalid() || loginForm().submitting()"
+    >
       @if (isLoginMode()) {
         Login
       } @else {

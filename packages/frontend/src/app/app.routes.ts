@@ -10,17 +10,18 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'lobby',
+    path: 'dashboard',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/lobby/lobby.component').then((c) => c.LobbyComponent),
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.component').then((c) => c.DashboardComponent),
   },
   {
     path: '',
-    redirectTo: 'lobby',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'lobby',
+    redirectTo: 'dashboard',
   },
 ];

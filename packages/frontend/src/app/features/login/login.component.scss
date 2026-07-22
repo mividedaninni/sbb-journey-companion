@@ -1,7 +1,27 @@
-.login-form {
+:host {
+  background-color: var(--sbb-color-milk);
+}
+
+.journey-companion-container {
+  padding: var(--sbb-spacing-responsive-l) var(--sbb-spacing-responsive-m);
+  background-color: var(--sbb-color-white);
+  border: var(--sbb-border-width-1x) solid var(--sbb-color-cloud);
+  border-top: var(--sbb-border-width-4x) solid var(--sbb-color-primary);
+  border-radius: var(--sbb-border-radius-4x);
+  box-shadow: var(--sbb-box-shadow-level-5-hard);
+}
+
+.login__form {
   display: flex;
   flex-direction: column;
-  gap: var(--sbb-spacing-fixed-4x);
-  width: 100%;
   align-items: center;
+  gap: var(--sbb-spacing-fixed-4x);
+}
+
+.login__submit-button {
+  margin-block-start: var(--sbb-spacing-fixed-2x);
+}
+
+.login__icon {
+  color: var(--sbb-color-primary);
 }
