@@ -16,8 +16,6 @@ export const baseConfig = tseslint.config(
     },
     rules: {
       'prettier/prettier': 'error',
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
       'perfectionist/sort-imports': [
         'error',
         {

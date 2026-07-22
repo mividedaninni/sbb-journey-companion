@@ -17,7 +17,7 @@ import { SbbTitleModule } from '@sbb-esta/lyne-angular/title';
 import { ApiError, ApiErrorCode, AuthRequestDto } from '@sbb-journey-companion/common';
 import { firstValueFrom } from 'rxjs';
 
-import { AuthService } from '../../core/auth/auth.service';
+import { AUTH_PORT } from '../../core/auth/auth.port';
 
 @Component({
   selector: 'journey-companion-login',
@@ -42,7 +42,7 @@ export class LoginComponent {
     password: '',
   });
 
-  private _authService = inject(AuthService);
+  private _authService = inject(AUTH_PORT);
   private _router = inject(Router);
 
   private _mode: WritableSignal<'login' | 'register'> = signal('login');

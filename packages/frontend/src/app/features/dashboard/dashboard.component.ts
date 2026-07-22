@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SbbTitleModule } from '@sbb-esta/lyne-angular/title';
 
-import { AuthService } from '../../core/auth/auth.service';
+import { AUTH_PORT } from '../../core/auth/auth.port';
 
 @Component({
   selector: 'journey-companion-dashboard',
@@ -11,5 +11,5 @@ import { AuthService } from '../../core/auth/auth.service';
   imports: [SbbTitleModule],
 })
 export class DashboardComponent {
-  protected readonly auth = inject(AuthService);
+  protected readonly auth = inject(AUTH_PORT);
 }

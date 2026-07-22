@@ -1,90 +1,55 @@
-import { HttpClient } from '@angular/common/http';
-import { computed, inject, Service, signal } from '@angular/core';
-import { AuthRequestDto, AuthResponseDto, JwtPayloadDto } from '@sbb-journey-companion/common';
-import { BehaviorSubject, catchError, filter, Observable, take, tap, throwError } from 'rxjs';
+import { computed, Service, signal } from '@angular/core';
+import { AuthRequestDto, AuthResponseDto, UserDto } from '@sbb-journey-companion/common';
+import { delay, Observable, of } from 'rxjs';
 
-import { activeSessionKey, activeSessionValue } from '../../app.config';
+import { AuthPort, LoggedUser } from './auth.port';
 
-interface LoggedUser {
-  user: JwtPayloadDto | null;
-  loggedIn: boolean;
-}
+const LOCAL_USER_KEY = 'sjc-local-user';
+const LOCAL_TOKEN = 'local-mode-no-token';
 
 @Service()
-export class AuthService {
-  #http: HttpClient = inject(HttpClient);
-  #accessToken: string | null = null;
-  #refreshInProgress = false;
-  #refreshSubject = new BehaviorSubject<AuthResponseDto | null>(null);
-
-  readonly #authState = signal<LoggedUser>({ loggedIn: false, user: null });
-  readonly authState = this.#authState.asReadonly();
-  readonly isLoggedIn = computed(() => this.authState().loggedIn);
-  readonly currentUser = computed(() => this.authState().user);
+export class AuthService implements AuthPort {
+  readonly #authState = signal<LoggedUser>(this.#restore());
+  readonly isLoggedIn = computed(() => this.#authState().loggedIn);
+  readonly currentUser = computed(() => this.#authState().user);
 
   get token() {
-    return this.#accessToken;
+    return this.isLoggedIn() ? LOCAL_TOKEN : null;
   }
 
   login(req: AuthRequestDto): Observable<AuthResponseDto> {
-    return this.#http
-      .post<AuthResponseDto>('/api/login', req)
-      .pipe(tap((res) => this._setSession(res)));
+    return this.#createLocalSession(req.username);
   }
 
   register(payload: AuthRequestDto): Observable<AuthResponseDto> {
-    return this.#http
-      .post<AuthResponseDto>('/api/register', payload)
-      .pipe(tap((res) => this._setSession(res)));
+    return this.#createLocalSession(payload.username);
   }
 
   refresh(): Observable<AuthResponseDto | null> {
-    if (this.#refreshInProgress) {
-      return this.#refreshSubject.pipe(
-        filter((res) => res !== null),
-        take(1),
-      );
+    const user = this.currentUser();
+    if (!user) {
+      return of(null);
     }
-
-    this.#refreshInProgress = true;
-    this.#refreshSubject.next(null);
-
-    return this.#http.post<AuthResponseDto>('/api/refresh', {}).pipe(
-      tap((res: AuthResponseDto) => {
-        this._setSession(res);
-        this.#refreshInProgress = false;
-        this.#refreshSubject.next(res);
-      }),
-      catchError((error) => {
-        this.#refreshInProgress = false;
-        this.#refreshSubject.next(null);
-        return throwError(() => error);
-      }),
-    );
+    return of({ accessToken: LOCAL_TOKEN, user }).pipe(delay(150));
   }
 
-  logout() {
-    this._clearSession();
-    this.#http.post('/api/logout', {}).subscribe();
+  logout(): void {
+    localStorage.removeItem(LOCAL_USER_KEY);
+    this.#authState.set({ loggedIn: false, user: null });
   }
 
-  private _setSession(res: AuthResponseDto): void {
-    this.#accessToken = res.accessToken;
-    this.#authState.set({
-      loggedIn: true,
-      user: res.user,
-    });
-    sessionStorage.setItem(activeSessionKey, activeSessionValue);
+  #createLocalSession(username: string): Observable<AuthResponseDto> {
+    const user: UserDto = { id: crypto.randomUUID(), username, isAdmin: false };
+    localStorage.setItem(LOCAL_USER_KEY, JSON.stringify(user));
+    this.#authState.set({ loggedIn: true, user });
+    return of({ accessToken: LOCAL_TOKEN, user }).pipe(delay(150));
   }
 
-  private _clearSession(): void {
-    this.#accessToken = null;
-    this.#refreshInProgress = false;
-    this.#refreshSubject.next(null);
-    this.#authState.set({
-      loggedIn: false,
-      user: null,
-    });
-    sessionStorage.removeItem(activeSessionKey);
+  #restore(): LoggedUser {
+    const raw = localStorage.getItem(LOCAL_USER_KEY);
+    if (!raw) {
+      return { loggedIn: false, user: null };
+    }
+    return { loggedIn: true, user: JSON.parse(raw) as UserDto };
   }
 }

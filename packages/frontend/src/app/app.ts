@@ -7,7 +7,7 @@ import { SbbLoadingIndicatorModule } from '@sbb-esta/lyne-angular/loading-indica
 import { SbbMenuModule } from '@sbb-esta/lyne-angular/menu';
 import { SbbToastService } from '@sbb-esta/lyne-angular/toast';
 
-import { AuthService } from './core/auth/auth.service';
+import { AUTH_PORT } from './core/auth/auth.port';
 import { ErrorDialog } from './core/http/error-dialog';
 import { ERROR_NOTIFIER } from './core/http/http-error-interceptor';
 import { LoaderService } from './core/loader/loader.service';
@@ -56,7 +56,7 @@ import { LoaderService } from './core/loader/loader.service';
   `,
 })
 export class App {
-  protected auth = inject(AuthService);
+  protected auth = inject(AUTH_PORT);
   protected loaderService = inject(LoaderService);
   private _router = inject(Router);
   private _sbbToastService = inject(SbbToastService);

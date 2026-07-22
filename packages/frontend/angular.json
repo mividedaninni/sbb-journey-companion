@@ -58,6 +58,27 @@
                 }
               ]
             },
+            "github-pages": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.pages.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -70,6 +91,9 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
+              "buildTarget": "sbb-journey-companion:build:production"
+            },
+            "github-pages": {
               "buildTarget": "sbb-journey-companion:build:production"
             },
             "development": {
